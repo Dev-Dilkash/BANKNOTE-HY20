@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banknote Authentication | Group HY20</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #080808;
+            --gold-accent: #dcb47b;
+            --gold-dim: rgba(220, 180, 123, 0.3);
+            --text-light: #a3a3a3;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow: hidden; /* Prevent scrolling when modal is open */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            padding: 30px;
+            background: rgba(8, 8, 8, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            padding: 10px 25px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(1);
+        }
+
+        .nav-btn:hover, .nav-btn.auto-pop {
+            background: rgba(220, 180, 123, 0.1);
+            border-color: var(--gold-accent);
+            transform: scale(1.15);
+            color: var(--gold-accent);
+            box-shadow: 0 4px 20px rgba(220, 180, 123, 0.15);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @keyframes lampGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(220,180,123,0.3), 0 0 20px rgba(220,180,123,0.1); opacity: 0.85; }
+            50% { text-shadow: 0 0 20px rgba(220,180,123,0.8), 0 0 40px rgba(220,180,123,0.6), 0 0 60px rgba(220,180,123,0.2); opacity: 1; }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            margin: 0 0 15px 0;
+            color: var(--gold-accent);
+            font-weight: 400;
+            letter-spacing: 2px;
+            animation: lampGlow 3s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 50px;
+            max-width: 600px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* --- Get Started Button (Now with fluid effect) --- */
+        .start-btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            background: transparent;
+            color: var(--gold-accent);
+            border: 1px solid var(--gold-accent);
+            border-radius: 40px;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            /* Added fluid bounce transition here */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 15px rgba(220, 180, 123, 0.1);
+        }
+
+        .start-btn:hover {
+            background: rgba(220, 180, 123, 0.1);
+            box-shadow: 0 0 30px rgba(220, 180, 123, 0.4);
+            transform: scale(1.15); /* Fluid bounce effect */
+        }
+
+        @keyframes brokenLight {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--gold-accent); }
+            3%, 6% { opacity: 0.3; text-shadow: none; }
+            7%, 9% { opacity: 1; text-shadow: 0 0 10px var(--gold-accent); }
+            10%, 11% { opacity: 0.1; text-shadow: none; }
+            12%, 49% { opacity: 1; text-shadow: 0 0 8px var(--gold-accent); }
+            50%, 52% { opacity: 0.4; text-shadow: none; }
+            53%, 99% { opacity: 1; text-shadow: 0 0 10px var(--gold-accent); }
+        }
+
+        .broken-text {
+            display: inline-block;
+            font-weight: 500;
+            animation: brokenLight 3.5s infinite;
+        }
+
+        /* --- 3D Carousel Modal Section --- */
+        #teamModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px; right: 40px;
+            color: var(--text-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 200;
+        }
+        
+        .close-btn:hover { color: var(--gold-accent); transform: scale(1.2); }
+
+        .carousel-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 500px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Base Card Styling */
+        .card {
+            position: absolute;
+            top: 50%;
+            width: 320px;
+            opacity: 0; /* Hidden by default */
+            pointer-events: none;
+            /* Smooth sweeping transition for the 3D movement */
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        /* The Inner Content Box */
+        .card-inner {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--gold-dim);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        /* Active/Center Card */
+        .card.active {
+            left: 50%;
+            opacity: 1;
+            z-index: 3;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* The subtle floating/breathing effect ONLY for the active card */
+        .card.active .card-inner {
+            animation: breathe 3s ease-in-out infinite;
+            border-color: var(--gold-accent);
+            box-shadow: 0 15px 50px rgba(220, 180, 123, 0.2);
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); } /* Hila raha hai thoda sa */
+        }
+
+        /* Previous (Left) Card */
+        .card.prev {
+            left: 20%;
+            opacity: 0.4;
+            z-index: 1;
+            transform: translate(-50%, -50%) scale(0.75);
+        }
+
+        /* Next (Right) Card */
+        .card.next {
+            left: 80%;
+            opacity: 0.4;
+            z-index: 1;
+            transform: translate(-50%, -50%) scale(0.75);
+        }
+
+        /* Text inside cards */
+        .card-role {
+            color: var(--gold-accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 0 0 15px 0;
+            color: #fff;
+        }
+
+        .card-detail {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        .card-detail span { color: #fff; font-weight: 500;}
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="https://hy20-banknote-app-prvjnqkp8zbwcebwcmhuk4.streamlit.app/" class="nav-btn" target="_blank">App Preview</a>
+        <a href="UPDATE_THIS_ROADMAP_LINK_LATER" class="nav-btn" target="_blank">Roadmap</a>
+        <a href="UPDATE_THIS_REPORT_LINK_LATER" class="nav-btn" target="_blank">Project Report</a>
+    </div>
+
+    <div class="hero">
+        <h1 class="hero-title">Banknote<br>Authentication</h1>
+        <p class="hero-subtitle">An elegant machine learning solution by Group HY20.<br>Advanced algorithmic verification for the future of finance.</p>
+        
+        <button class="start-btn" onclick="openModal()">
+            <span class="broken-text">Get Started</span>
+        </button>
+    </div>
+
+    <div id="teamModal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        
+        <div class="carousel-container">
+            
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-role">Team Leader</div>
+                    <h2 class="card-name">Aaliya Imran</h2>
+                    <p class="card-detail">Course: <span>Diploma in CSE</span></p>
+                    <p class="card-detail">Roll No: <span>24DPCS002HY</span></p>
+                    <p class="card-detail">ER No: <span>A241201</span></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-role">Team Member</div>
+                    <h2 class="card-name">Dilkash</h2>
+                    <p class="card-detail">Course: <span>Diploma in CSE</span></p>
+                    <p class="card-detail">Roll No: <span>25DPCS008HY</span></p>
+                    <p class="card-detail">ER No: <span>A250926</span></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-role">Team Member</div>
+                    <h2 class="card-name">Haniya Khan</h2>
+                    <p class="card-detail">Course: <span>Diploma in ECE</span></p>
+                    <p class="card-detail">Roll No: <span>25DPEL037HY</span></p>
+                    <p class="card-detail">ER No: <span>A251679</span></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-role">Team Member</div>
+                    <h2 class="card-name">Shabnam Parween</h2>
+                    <p class="card-detail">Course: <span>Diploma in CSE</span></p>
+                    <p class="card-detail">Roll No: <span>24DPCS0027HY</span></p>
+                    <p class="card-detail">ER No: <span>A241206</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Navbar Auto-Pop Animation ---
+        const navBtns = document.querySelectorAll('.nav-btn');
+        let currentBtnIndex = 0;
+
+        function triggerPop() {
+            if (currentBtnIndex >= navBtns.length) return;
+            
+            navBtns[currentBtnIndex].classList.add('auto-pop');
+            
+            setTimeout((index) => {
+                navBtns[index].classList.remove('auto-pop');
+            }, 400, currentBtnIndex);
+
+            currentBtnIndex++;
+            if (currentBtnIndex < navBtns.length) {
+                setTimeout(triggerPop, 500); 
+            }
+        }
+        setInterval(() => {
+            currentBtnIndex = 0;
+            triggerPop();
+        }, 4000);
+
+
+        // --- 3D Carousel Logic ---
+        const cards = document.querySelectorAll('.card');
+        let currentIndex = 0;
+        let carouselInterval;
+
+        function updateCarousel() {
+            // Remove classes from all cards
+            cards.forEach(card => {
+                card.classList.remove('active', 'prev', 'next');
+            });
+            
+            // Calculate indices for infinite looping
+            let prevIndex = (currentIndex - 1 + cards.length) % cards.length;
+            let nextIndex = (currentIndex + 1) % cards.length;
+
+            // Apply classes
+            cards[currentIndex].classList.add('active');
+            cards[prevIndex].classList.add('prev');
+            cards[nextIndex].classList.add('next');
+            
+            // Move to the next slide for the next iteration
+            currentIndex = (currentIndex + 1) % cards.length;
+        }
+
+        // Modal Controls
+        function openModal() {
+            document.getElementById('teamModal').style.display = 'flex';
+            // Force reset index so it always starts from Team Leader
+            currentIndex = 0; 
+            updateCarousel(); // Show immediately
+            // Har 3.5 second baad change hoga, beech me rukega aur hilega
+            carouselInterval = setInterval(updateCarousel, 3500); 
+        }
+
+        function closeModal() {
+            document.getElementById('teamModal').style.display = 'none';
+            clearInterval(carouselInterval); // Stop slider when closed
+        }
+    </script>
+</body>
+</html>
