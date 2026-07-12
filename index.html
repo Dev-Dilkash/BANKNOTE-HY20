@@ -22,7 +22,7 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-dark);
             color: #ffffff;
-            overflow: hidden;
+            overflow: hidden; 
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -116,7 +116,7 @@
         .start-btn:hover {
             background: rgba(220, 180, 123, 0.1);
             box-shadow: 0 0 30px rgba(220, 180, 123, 0.4);
-            transform: scale(1.15);
+            transform: scale(1.15); 
         }
 
         @keyframes brokenLight {
@@ -194,7 +194,7 @@
         #desktopToast {
             position: fixed;
             bottom: 30px;
-            right: -400px; /* Hidden initially */
+            right: -400px; 
             background: rgba(20, 20, 20, 0.85);
             border-left: 4px solid var(--gold-accent);
             backdrop-filter: blur(10px);
@@ -209,7 +209,7 @@
         }
 
         #desktopToast.show {
-            right: 30px; /* Slides in */
+            right: 30px; 
         }
 
         .toast-title {
@@ -294,7 +294,7 @@
 
         @keyframes breathe {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-12px); } 
         }
 
         .card.prev {
@@ -383,7 +383,7 @@
             <div class="card">
                 <div class="card-inner">
                     <div class="card-role">Team Member</div>
-                    <h2 class="card-name">Dilkash</h2>
+                    <h2 class="card-name">Dilkhush</h2>
                     <p class="card-detail">Course: <span>Diploma in CSE</span></p>
                     <p class="card-detail">Roll No: <span>25DPCS008HY</span></p>
                     <p class="card-detail">ER No: <span>A250926</span></p>
@@ -413,8 +413,6 @@
     </div>
 
     <script>
-        // --- Device Detection Logic ---
-        <script>
         // --- Smart Device Detection Logic ---
         function getDeviceOS() {
             const userAgent = window.navigator.userAgent.toLowerCase();
@@ -434,24 +432,19 @@
         }
 
         window.onload = function() {
-        // ... (baaki ka code waisa hi rahega)
             let screenWidth = window.innerWidth;
             
-            // Check if mobile device based on screen width
             if (screenWidth <= 768) {
                 document.getElementById('mobileWarning').style.display = 'flex';
             } else {
-                // If on desktop, show the premium toast notification
                 let osName = getDeviceOS();
                 let toast = document.getElementById('desktopToast');
                 document.getElementById('deviceText').innerHTML = `Premium mode active on your <b>${osName}</b>.`;
                 
-                // Slide toast in after 1 second
                 setTimeout(() => {
                     toast.classList.add('show');
                 }, 1000);
 
-                // Hide toast after 6 seconds
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 7000);
@@ -484,7 +477,6 @@
             currentBtnIndex = 0;
             triggerPop();
         }, 4000);
-
 
         // --- 3D Carousel Logic ---
         const cards = document.querySelectorAll('.card');
