@@ -22,7 +22,7 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-dark);
             color: #ffffff;
-            overflow: hidden; /* Prevent scrolling when modal is open */
+            overflow: hidden;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -99,7 +99,7 @@
             font-weight: 300;
         }
 
-        /* --- Get Started Button (Now with fluid effect) --- */
+        /* --- Get Started Button --- */
         .start-btn {
             padding: 15px 40px;
             font-size: 1.1rem;
@@ -109,7 +109,6 @@
             border-radius: 40px;
             font-family: 'Montserrat', sans-serif;
             cursor: pointer;
-            /* Added fluid bounce transition here */
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 15px rgba(220, 180, 123, 0.1);
         }
@@ -117,7 +116,7 @@
         .start-btn:hover {
             background: rgba(220, 180, 123, 0.1);
             box-shadow: 0 0 30px rgba(220, 180, 123, 0.4);
-            transform: scale(1.15); /* Fluid bounce effect */
+            transform: scale(1.15);
         }
 
         @keyframes brokenLight {
@@ -134,6 +133,97 @@
             display: inline-block;
             font-weight: 500;
             animation: brokenLight 3.5s infinite;
+        }
+
+        /* --- Mobile Warning Popup --- */
+        #mobileWarning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 8, 8, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .warning-box {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--gold-accent);
+            padding: 40px 30px;
+            border-radius: 20px;
+            max-width: 350px;
+            box-shadow: 0 10px 40px rgba(220, 180, 123, 0.2);
+        }
+
+        .warning-title {
+            color: var(--gold-accent);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 0 0 15px 0;
+        }
+
+        .warning-text {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .warning-btn {
+            background: var(--gold-accent);
+            color: var(--bg-dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .warning-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(220, 180, 123, 0.4);
+        }
+
+        /* --- Desktop Toast Notification --- */
+        #desktopToast {
+            position: fixed;
+            bottom: 30px;
+            right: -400px; /* Hidden initially */
+            background: rgba(20, 20, 20, 0.85);
+            border-left: 4px solid var(--gold-accent);
+            backdrop-filter: blur(10px);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: right 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #desktopToast.show {
+            right: 30px; /* Slides in */
+        }
+
+        .toast-title {
+            color: var(--gold-accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+        }
+
+        .toast-msg {
+            color: #fff;
+            font-size: 0.95rem;
+            margin: 0;
         }
 
         /* --- 3D Carousel Modal Section --- */
@@ -170,19 +260,16 @@
             align-items: center;
         }
 
-        /* Base Card Styling */
         .card {
             position: absolute;
             top: 50%;
             width: 320px;
-            opacity: 0; /* Hidden by default */
+            opacity: 0;
             pointer-events: none;
-            /* Smooth sweeping transition for the 3D movement */
             transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             transform: translate(-50%, -50%) scale(0.5);
         }
 
-        /* The Inner Content Box */
         .card-inner {
             background: rgba(20, 20, 20, 0.8);
             border: 1px solid var(--gold-dim);
@@ -192,7 +279,6 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        /* Active/Center Card */
         .card.active {
             left: 50%;
             opacity: 1;
@@ -200,7 +286,6 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        /* The subtle floating/breathing effect ONLY for the active card */
         .card.active .card-inner {
             animation: breathe 3s ease-in-out infinite;
             border-color: var(--gold-accent);
@@ -209,10 +294,9 @@
 
         @keyframes breathe {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); } /* Hila raha hai thoda sa */
+            50% { transform: translateY(-12px); }
         }
 
-        /* Previous (Left) Card */
         .card.prev {
             left: 20%;
             opacity: 0.4;
@@ -220,7 +304,6 @@
             transform: translate(-50%, -50%) scale(0.75);
         }
 
-        /* Next (Right) Card */
         .card.next {
             left: 80%;
             opacity: 0.4;
@@ -228,7 +311,6 @@
             transform: translate(-50%, -50%) scale(0.75);
         }
 
-        /* Text inside cards */
         .card-role {
             color: var(--gold-accent);
             font-size: 0.85rem;
@@ -271,11 +353,23 @@
         </button>
     </div>
 
+    <div id="mobileWarning">
+        <div class="warning-box">
+            <h2 class="warning-title">Desktop View Required</h2>
+            <p class="warning-text">For the premium cinematic experience of this project, please view on a PC/Laptop, or enable <b>"Desktop Site"</b> in your browser settings.</p>
+            <button class="warning-btn" onclick="closeWarning()">Got it!</button>
+        </div>
+    </div>
+
+    <div id="desktopToast">
+        <p class="toast-title">System Detected</p>
+        <p class="toast-msg" id="deviceText">Premium mode active.</p>
+    </div>
+
     <div id="teamModal">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         
         <div class="carousel-container">
-            
             <div class="card">
                 <div class="card-inner">
                     <div class="card-role">Team Leader</div>
@@ -315,11 +409,47 @@
                     <p class="card-detail">ER No: <span>A241206</span></p>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
+        // --- Device Detection Logic ---
+        function getDeviceOS() {
+            const userAgent = window.navigator.userAgent;
+            if (/Windows/.test(userAgent)) return "Windows PC";
+            if (/Mac/.test(userAgent)) return "Mac";
+            if (/Linux/.test(userAgent)) return "Linux System";
+            return "Desktop System";
+        }
+
+        window.onload = function() {
+            let screenWidth = window.innerWidth;
+            
+            // Check if mobile device based on screen width
+            if (screenWidth <= 768) {
+                document.getElementById('mobileWarning').style.display = 'flex';
+            } else {
+                // If on desktop, show the premium toast notification
+                let osName = getDeviceOS();
+                let toast = document.getElementById('desktopToast');
+                document.getElementById('deviceText').innerHTML = `Premium mode active on your <b>${osName}</b>.`;
+                
+                // Slide toast in after 1 second
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 1000);
+
+                // Hide toast after 6 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 7000);
+            }
+        };
+
+        function closeWarning() {
+            document.getElementById('mobileWarning').style.display = 'none';
+        }
+
         // --- Navbar Auto-Pop Animation ---
         const navBtns = document.querySelectorAll('.nav-btn');
         let currentBtnIndex = 0;
@@ -350,37 +480,30 @@
         let carouselInterval;
 
         function updateCarousel() {
-            // Remove classes from all cards
             cards.forEach(card => {
                 card.classList.remove('active', 'prev', 'next');
             });
             
-            // Calculate indices for infinite looping
             let prevIndex = (currentIndex - 1 + cards.length) % cards.length;
             let nextIndex = (currentIndex + 1) % cards.length;
 
-            // Apply classes
             cards[currentIndex].classList.add('active');
             cards[prevIndex].classList.add('prev');
             cards[nextIndex].classList.add('next');
             
-            // Move to the next slide for the next iteration
             currentIndex = (currentIndex + 1) % cards.length;
         }
 
-        // Modal Controls
         function openModal() {
             document.getElementById('teamModal').style.display = 'flex';
-            // Force reset index so it always starts from Team Leader
             currentIndex = 0; 
-            updateCarousel(); // Show immediately
-            // Har 3.5 second baad change hoga, beech me rukega aur hilega
+            updateCarousel(); 
             carouselInterval = setInterval(updateCarousel, 3500); 
         }
 
         function closeModal() {
             document.getElementById('teamModal').style.display = 'none';
-            clearInterval(carouselInterval); // Stop slider when closed
+            clearInterval(carouselInterval); 
         }
     </script>
 </body>
