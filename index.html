@@ -414,15 +414,27 @@
 
     <script>
         // --- Device Detection Logic ---
+        <script>
+        // --- Smart Device Detection Logic ---
         function getDeviceOS() {
-            const userAgent = window.navigator.userAgent;
-            if (/Windows/.test(userAgent)) return "Windows PC";
-            if (/Mac/.test(userAgent)) return "Mac";
-            if (/Linux/.test(userAgent)) return "Linux System";
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            const isTouch = navigator.maxTouchPoints > 0; // Checks if it's a touch screen
+
+            if (/windows/.test(userAgent)) return "Windows PC";
+            if (/mac/.test(userAgent)) return "Mac";
+            if (/android/.test(userAgent)) return "Android Device";
+            if (/iphone|ipad|ipod/.test(userAgent)) return "iOS Device";
+            
+            // Agar Linux bol raha hai aur touch screen bhi hai, toh definitely Android Desktop Mode hai
+            if (/linux/.test(userAgent)) {
+                return isTouch ? "Android (Desktop Mode)" : "Linux System";
+            }
+            
             return "Desktop System";
         }
 
         window.onload = function() {
+        // ... (baaki ka code waisa hi rahega)
             let screenWidth = window.innerWidth;
             
             // Check if mobile device based on screen width
